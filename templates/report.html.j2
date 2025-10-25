@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Weekly Customer Sentiment – {{ week_label }}</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
+    h1 { margin-bottom: 0; }
+    .kpis div { margin: 6px 0; }
+    table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .pill { padding: 2px 8px; border-radius: 12px; background: #eee; display: inline-block; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Weekly Customer Sentiment</h1>
+  <div>{{ week_label }}</div>
+
+  <div class="kpis">
+    <div><strong>Total Reviews:</strong> {{ total_reviews }}</div>
+    <div><strong>Sentiment Index (0..1):</strong> {{ sentiment_index }}</div>
+    <div><strong>Positive / Neutral / Negative:</strong> {{ pos }}/{{ neu }}/{{ neg }}</div>
+    <div><strong>Top Topics:</strong>
+      {% for t in top_topics %}<span class="pill">{{ t[0] }} ({{ t[1] }})</span>{% endfor %}
+    </div>
+  </div>
+
+  <h2>Highlights</h2>
+  <h3>Most Positive</h3>
+  <ul>
+    {% for r in best_samples %}
+      <li><em>{{ r.rating }}/5</em> — {{ r.text[:160] }}{% if r.text|length>160 %}…{% endif %}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Most Negative</h3>
+  <ul>
+    {% for r in worst_samples %}
+      <li><em>{{ r.rating }}/5</em> — {{ r.text[:160] }}{% if r.text|length>160 %}…{% endif %}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>All Reviews This Week</h2>
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Platform</th><th>Rating</th><th>Sentiment</th><th>Score</th><th>Topics</th><th>Text</th></tr>
+    </thead>
+    <tbody>
+      {% for r in week_rows %}
+      <tr>
+        <td>{{ r.created_at[:10] }}</td>
+        <td>{{ r.platform }}</td>
+        <td>{{ r.rating }}</td>
+        <td>{{ r.sentiment_label }}</td>
+        <td>{{ r.sentiment_score }}</td>
+        <td>{{ r.topics }}</td>
+        <td>{{ r.text[:140] }}{% if r.text|length>140 %}…{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p style="margin-top:24px;color:#666">Auto-generated weekly report.</p>
+</body>
+</html>
