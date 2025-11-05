@@ -5,13 +5,17 @@ on:
     - cron: "0 12 * * MON"   # 12:00 UTC = 08:00 Toronto (ET)
   workflow_dispatch: {}       # allow manual runs from the Actions tab
 
+# Needed for pushing commits AND publishing GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write          # so the bot can commit the CSV/HTML
     steps:
-      - name: Checkout
+      - name: Checkout (keep token)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -26,7 +30,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Uses your v1 (New) Places API fetcher
       - name: Fetch Google reviews (Places API v1)
         env:
           GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
@@ -37,14 +40,47 @@ jobs:
         run: python src/analyze.py
 
       - name: Build weekly report (HTML)
-        run: python src/reports.py
+        run: python src/reports.py  
 
       - name: Commit & push report and data
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Weekly auto-update" || echo "No changes to commit"
           git push
+
+      - name: Create simple index.html (links to latest + history)
+        run: |
+          python - << 'PY'
+          import glob, os, pathlib
+          reports = sorted(glob.glob("reports/weekly-*.html"))
+          idx = pathlib.Path("reports/index.html")
+          if reports:
+              items = '\n'.join(f'<li><a href="{os.path.basename(p)}">{os.path.basename(p)}</a></li>'
+                                for p in reversed(reports))
+              latest = os.path.basename(reports[-1])
+              idx.write_text(f"""<!doctype html><meta charset="utf-8">
+              <title>Weekly Sentiment Reports</title>
+              <h1>Weekly Sentiment Reports</h1>
+              <p><a href="{latest}">Open latest report</a></p>
+              <ul>{items}</ul>""", encoding="utf-8")
+          else:
+              idx.write_text("<h1>No reports yet</h1>", encoding="utf-8")
+          PY
+
+      - name: Upload Pages artifact (reports/)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: reports
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
