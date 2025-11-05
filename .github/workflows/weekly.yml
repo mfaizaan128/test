@@ -37,7 +37,7 @@ jobs:
         run: python src/analyze.py
 
       - name: Build weekly report (HTML)
-        run: python src/report.py
+        run: python src/reports.py
 
       - name: Commit & push report and data
         env:
