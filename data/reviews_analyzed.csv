@@ -1,6 +1,7 @@
 platform,review_id,business_id,author_name,rating,text,language,created_at,fetched_at,review_url,sentiment_label,sentiment_score,topics
 google,1758858567,ChIJP_Ie6gb0K4gRZacC1pfH44M,S R,5,Best Indian food in a friendly family run restaurant!,en,2025-09-25T23:49:27-04:00,2025-11-05T18:25:03.337703-05:00,,positive,0.9998,service
-google,1759540912,ChIJP_Ie6gb0K4gRZacC1pfH44M,veronica liang,5,Famous Waterloo curry place must try,en,2025-10-03T21:21:52-04:00,2025-11-05T18:25:03.337662-05:00,,positive,0.9354,
-google,1759605263,ChIJP_Ie6gb0K4gRZacC1pfH44M,RS V,1,,,2025-10-04T15:14:23-04:00,2025-11-05T18:25:03.337622-05:00,,neutral,0.7481,
-google,1761236768,ChIJP_Ie6gb0K4gRZacC1pfH44M,Adam,5,,,2025-10-23T12:26:08-04:00,2025-11-05T18:25:03.337579-05:00,,neutral,0.7481,
-google,1761334157,ChIJP_Ie6gb0K4gRZacC1pfH44M,Viyanna Koul,2,don’t order the chicken korma it’s literally coconut chicken,en,2025-10-24T15:29:17-04:00,2025-11-05T18:25:03.337527-05:00,,negative,0.9891,
+google,1759540912,ChIJP_Ie6gb0K4gRZacC1pfH44M,veronica liang,5,Famous Waterloo curry place must try,en,2025-10-03T21:21:52-04:00,2025-11-05T18:43:37.843131-05:00,,positive,0.9354,
+google,1759605263,ChIJP_Ie6gb0K4gRZacC1pfH44M,RS V,1,,,2025-10-04T15:14:23-04:00,2025-11-05T18:43:37.843093-05:00,,neutral,0.7481,
+google,1761236768,ChIJP_Ie6gb0K4gRZacC1pfH44M,Adam,5,,,2025-10-23T12:26:08-04:00,2025-11-05T18:43:37.843052-05:00,,neutral,0.7481,
+google,1761334157,ChIJP_Ie6gb0K4gRZacC1pfH44M,Viyanna Koul,2,don’t order the chicken korma it’s literally coconut chicken,en,2025-10-24T15:29:17-04:00,2025-11-05T18:43:37.843000-05:00,,negative,0.9891,
+google,1762386066,ChIJP_Ie6gb0K4gRZacC1pfH44M,Faizaan M,5,Amazing food and great hospitality,en,2025-11-05T18:41:06-05:00,2025-11-05T18:43:37.842943-05:00,,positive,0.9999,
